@@ -1,10 +1,10 @@
-import { Client, MessageAttachment, MessageEmbed, TextChannel } from 'discord.js/typings/index.js'
+import { Client, AttachmentBuilder, EmbedBuilder, TextChannel, ActivityType } from 'discord.js/typings/index.js'
 
 export async function PostDiscord(
-  embeds: MessageEmbed[],
+  embeds: EmbedBuilder[],
   client: Client<boolean>,
   channelName: string,
-  files: MessageAttachment[] | undefined,
+  files: AttachmentBuilder[] | undefined,
 ) {
   try {
     const channels = client.channels.cache
@@ -19,5 +19,5 @@ export async function PostDiscord(
 }
 
 export async function defaultActivity(client: Client<boolean>) {
-  client.user?.setActivity(`Velodrome Pools`, { type: 'WATCHING' })
+  client.user?.setActivity(`Velodrome Pools`, { type: ActivityType.Watching })
 }

@@ -9,7 +9,6 @@ const getBlockCacheKey = (chainId: number, blockTag: BlockTag) => {
   return `${chainId}-${blockTag}`
 }
 
-// Refresh latest block every 5 seconds
 const LATEST_BLOCK_TIMEOUT = 5 * 1000
 
 export default class BotJsonRpcProvider extends StaticJsonRpcProvider {

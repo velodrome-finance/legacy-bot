@@ -1,5 +1,5 @@
 import { TOKEN_SYMBOL } from '../secrets'
-import { MessageEmbed } from 'discord.js'
+import { EmbedBuilder } from 'discord.js'
 import { DepositWithdrawDto, TransferDto } from '../types/dtos'
 import { EtherScanTransactionLink, zapperUrl, FormattedDateTime, FN } from './common'
 
@@ -36,21 +36,25 @@ export function UserLink(ens: string, user: string, isNotable: boolean, userAddr
   return `<a href="${zapperUrl}${userAddress}">${ens ? ens : '🧑 ' + user}</a>`
 }
 
-export function TransferDiscord(transfer: TransferDto): MessageEmbed[] {
-  const messageEmbeds: MessageEmbed[] = []
-  const tradeEmbed = new MessageEmbed()
+export function TransferDiscord(transfer: TransferDto): EmbedBuilder[] {
+  const messageEmbeds: EmbedBuilder[] = []
+  const tradeEmbed = new EmbedBuilder()
     .setColor('#00ff7f')
     .setURL(`${`https://optimistic.etherscan.io/tx/${transfer.transactionHash}`}`)
     .setTitle(`$${TOKEN_SYMBOL} Transfer: ${FN(transfer.amount, 2)} $${TOKEN_SYMBOL} ($${FN(transfer.value, 2)})`)
-    .addField(
-      'From',
-      `${transfer.fromEns ? transfer.fromEns : transfer.notableFrom ? transfer.from : '🧑 ' + transfer.toAddress}`,
-      false,
-    )
-    .addField(
-      'To',
-      `${transfer.toEns ? transfer.toEns : transfer.notableTo ? transfer.to : '🧑 ' + transfer.toAddress}`,
-      false,
+    .addFields(
+      {
+        name: 'From',
+        value: `${
+          transfer.fromEns ? transfer.fromEns : transfer.notableFrom ? transfer.from : '🧑 ' + transfer.toAddress
+        }`,
+        inline: false,
+      },
+      {
+        name: 'To',
+        value: `${transfer.toEns ? transfer.toEns : transfer.notableTo ? transfer.to : '🧑 ' + transfer.toAddress}`,
+        inline: false,
+      },
     )
     .setFooter({ text: `${FormattedDateTime(transfer.timestamp)}` })
 

@@ -1,4 +1,4 @@
-import { MessageEmbed } from 'discord.js'
+import { EmbedBuilder } from 'discord.js'
 import { staticIcons } from '../constants/staticIcons'
 import { SwapDto } from '../types/dtos'
 import { EtherScanTransactionLink, FN, FormattedDateTime } from './common'
@@ -34,9 +34,9 @@ function Line3(amountInAmount: number, tokenSymbol: string, amountInValue: numbe
   post.push(`🔸 ${FN(amountInAmount, 2)} $${tokenSymbol} ($${FN(amountInValue, 2)})\n\n`)
 }
 
-export function SwapDiscord(dto: SwapDto): MessageEmbed[] {
-  const messageEmbeds: MessageEmbed[] = []
-  const embed = new MessageEmbed()
+export function SwapDiscord(dto: SwapDto): EmbedBuilder[] {
+  const messageEmbeds: EmbedBuilder[] = []
+  const embed = new EmbedBuilder()
     .setColor('#00ff7f')
     .setURL(`${`https://optimistic.etherscan.io/tx/${dto.transactionHash}`}`)
     .setFooter({
@@ -58,13 +58,21 @@ export function SwapDiscord(dto: SwapDto): MessageEmbed[] {
   return messageEmbeds
 }
 
-function title(amountInValue: number, token0Symbol: string, token1Symbol: string, embed: MessageEmbed) {
+function title(amountInValue: number, token0Symbol: string, token1Symbol: string, embed: EmbedBuilder) {
   embed.setTitle(`$${FN(amountInValue, 2)} ${token0Symbol}/${token1Symbol} Swap`)
 }
 
-function discord1(amountInAmount: number, tokenSymbol: string, amountInValue: number, embed: MessageEmbed) {
-  embed.addField(`From`, `> 🔹 ${FN(amountInAmount, 2)} $${tokenSymbol} ($${FN(amountInValue, 2)})`, false)
+function discord1(amountInAmount: number, tokenSymbol: string, amountInValue: number, embed: EmbedBuilder) {
+  embed.addFields({
+    name: `From`,
+    value: `> 🔹 ${FN(amountInAmount, 2)} $${tokenSymbol} ($${FN(amountInValue, 2)})`,
+    inline: false,
+  })
 }
-function discord2(amountInAmount: number, tokenSymbol: string, amountInValue: number, embed: MessageEmbed) {
-  embed.addField(`To`, `> 🔸 ${FN(amountInAmount, 2)} $${tokenSymbol} ($${FN(amountInValue, 2)})`, false)
+function discord2(amountInAmount: number, tokenSymbol: string, amountInValue: number, embed: EmbedBuilder) {
+  embed.addFields({
+    name: `To`,
+    value: `> 🔸 ${FN(amountInAmount, 2)} $${tokenSymbol} ($${FN(amountInValue, 2)})`,
+    inline: false,
+  })
 }

@@ -7,7 +7,7 @@ import {
   TWITTER_ENABLED,
 } from '../secrets'
 import fromBigNumber from '../utils/fromBigNumber'
-import { Client, MessageAttachment } from 'discord.js'
+import { Client, AttachmentBuilder } from 'discord.js'
 import { SwapDto } from '../types/dtos'
 import { GetNotableAddress } from '../utils/notableAddresses'
 import { firstAddress, toDate } from '../utils/utils'
@@ -118,7 +118,7 @@ export async function BroadCastMint(
   if (DISCORD_ENABLED) {
     const post = SwapDiscord(dto)
     const buffer = Buffer.from(dto.img64, 'base64')
-    const att = new MessageAttachment(buffer, 'buffer.png')
+    const att = new AttachmentBuilder(buffer, { name: 'buffer.png' })
     await PostDiscord(post, discordClient, DISCORD_CHANNEL_SWAP, [att])
   }
   if (TELEGRAM_ENABLED) {
