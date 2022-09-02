@@ -1,7 +1,6 @@
 import { TESTNET } from '../secrets'
 import { Client } from 'discord.js'
 import { BlockEvent } from '../event'
-
 import { Context, Telegraf } from 'telegraf'
 import { Update } from 'telegraf/typings/core/types/typegram'
 import { TwitterApi } from 'twitter-api-v2'
@@ -22,23 +21,12 @@ export async function TrackEvents(
   if (TESTNET) {
     blockNumber = rpcClient.provider.blockNumber - 500
   }
-
   BlockEvent.on(
     rpcClient,
     async (event) => {
-      // track different events based on event type
-      // can do this using the topic - topic[0] is the type of even
-      // Object.entries(groupedEvent).forEach(([key, value]) => {
-      //   console.log(key, value)
-      // })
-      if (event.topics[0] === TRANSFER_TOPIC) {
-        // deal with token transfers
-        // TrackTransfer(discordClient, telegramClient, twitterClient, rpcClient, event)
-      } else if (event.topics[0] === MINT_TOPIC) {
-        // deal with deposits - mints new tokens
+      if (event.topics[0] === MINT_TOPIC) {
         await TrackMint(discordClient, telegramClient, twitterClient, rpcClient, event, true)
       } else if (event.topics[0] == SWAP_TOPIC) {
-        // track swaps
         await TrackSwap(discordClient, telegramClient, twitterClient, rpcClient, event)
       }
     },

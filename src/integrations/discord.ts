@@ -1,4 +1,4 @@
-import { Client, AttachmentBuilder, EmbedBuilder, TextChannel, ActivityType } from 'discord.js/typings/index.js'
+import { Client, AttachmentBuilder, EmbedBuilder, TextChannel, ActivityType } from 'discord.js'
 
 export async function PostDiscord(
   embeds: EmbedBuilder[],
