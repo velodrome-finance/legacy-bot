@@ -1,7 +1,7 @@
 import { EmbedBuilder } from 'discord.js'
 import { staticIcons } from '../constants/staticIcons'
 import { SwapDto } from '../types/dtos'
-import { EtherScanTransactionLink, FN, FormattedDateTime } from './common'
+import { EtherScanTransactionLink, FN } from './common'
 
 export function SwapTwitter(dto: SwapDto) {
   const post: string[] = []

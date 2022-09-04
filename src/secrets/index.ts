@@ -43,5 +43,6 @@ export const TELEGRAM_CHANNEL = _.defaultTo(process.env.TELEGRAM_CHANNEL, '')
 export const DISCORD_ACCESS_TOKEN = _.defaultTo(process.env.DISCORD_ACCESS_TOKEN, '')
 export const DISCORD_CHANNEL_SWAP = _.defaultTo(process.env.DISCORD_CHANNEL_SWAP, '')
 export const DISCORD_CHANNEL_DEPOSIT = _.defaultTo(process.env.DISCORD_CHANNEL_DEPOSIT, '')
+export const DISCORD_CHANNEL_BRIBE = _.defaultTo(process.env.DISCORD_CHANNEL_BRIBE, '')
 
 export const TESTNET: boolean = _.defaultTo(convertToBoolean(process.env.TESTNET as string), true) as boolean

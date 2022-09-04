@@ -1,22 +1,11 @@
-export type TransferDto = BaseDto & {
-  amount: number
+import { EventType } from '../constants/eventType'
+
+export type BaseEvent = {
   value: number
+  eventType: EventType
 }
 
-export type DepositWithdrawDto = BaseDto & {
-  token0Amount: number
-  token0Symbol: string
-  token0Value: number
-  token1Amount: number
-  token1Value: number
-  token1Symbol: string
-  isDeposit: boolean
-  totalValue: number
-  imageUrl: string
-  img64: string
-}
-
-export type BaseDto = {
+export type BaseDto = BaseEvent & {
   from: string
   to: string
   fromAddress: string
@@ -28,6 +17,18 @@ export type BaseDto = {
   blockNumber: number
   notableTo: boolean
   notableFrom: boolean
+}
+
+export type DepositWithdrawDto = BaseDto & {
+  token0Amount: number
+  token0Symbol: string
+  token0Value: number
+  token1Amount: number
+  token1Value: number
+  token1Symbol: string
+  isDeposit: boolean
+  imageUrl: string
+  img64: string
 }
 
 export type SwapDto = BaseDto & {
@@ -43,5 +44,4 @@ export type SwapDto = BaseDto & {
   amount1OutValue: number
   imageUrl: string
   img64: string
-  totalValue: number
 }

@@ -3,6 +3,8 @@
 /* eslint-disable */
 export type { VelodromeGauge } from "./VelodromeGauge";
 export type { VelodromePair } from "./VelodromePair";
+export type { WrappedExternalBribe } from "./WrappedExternalBribe";
 export * as factories from "./factories";
 export { VelodromeGauge__factory } from "./factories/VelodromeGauge__factory";
 export { VelodromePair__factory } from "./factories/VelodromePair__factory";
+export { WrappedExternalBribe__factory } from "./factories/WrappedExternalBribe__factory";

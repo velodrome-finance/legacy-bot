@@ -3,9 +3,9 @@ import { staticIcons } from '../constants/staticIcons'
 import { DepositWithdrawDto } from '../types/dtos'
 import { EtherScanTransactionLink, FN } from './common'
 
-export function DepositWithdrawTwitter(dto: DepositWithdrawDto) {
+export function DepositTwitter(dto: DepositWithdrawDto) {
   const post: string[] = []
-  post.push(`$${FN(dto.totalValue, 2)} deposit\n\n`)
+  post.push(`$${FN(dto.value, 2)} deposit\n\n`)
   post.push(`${dto.toEns ? dto.toEns : dto.notableTo ? dto.to : '🧑 ' + dto.toAddress}\n`)
   post.push(`🔹 ${FN(dto.token0Amount, 2)} $${dto.token0Symbol} ($${FN(dto.token0Value, 2)})\n`)
   post.push(`🔸 ${FN(dto.token1Amount, 2)} $${dto.token1Symbol} ($${FN(dto.token1Value, 2)})\n\n`)
@@ -18,7 +18,7 @@ export function DepositWithdrawTwitter(dto: DepositWithdrawDto) {
   return post.join('')
 }
 
-export function DepositWithdrawDiscord(dto: DepositWithdrawDto): EmbedBuilder[] {
+export function DepositDiscord(dto: DepositWithdrawDto): EmbedBuilder[] {
   const messageEmbeds: EmbedBuilder[] = []
   const embed = new EmbedBuilder()
     .setColor('#00ff7f')
@@ -29,7 +29,7 @@ export function DepositWithdrawDiscord(dto: DepositWithdrawDto): EmbedBuilder[] 
     })
     .setTimestamp()
     .setThumbnail('attachment://buffer.png')
-    .setTitle(`$${FN(dto.totalValue, 2)} ${dto.token0Symbol}/${dto.token1Symbol} Deposit`)
+    .setTitle(`$${FN(dto.value, 2)} ${dto.token0Symbol}/${dto.token1Symbol} Deposit`)
     .addFields(
       {
         name: `$${dto.token0Symbol}`,

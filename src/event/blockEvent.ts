@@ -6,9 +6,10 @@ import { Update } from 'telegraf/typings/core/types/typegram'
 import { TwitterApi } from 'twitter-api-v2'
 import { MINT_TOPIC, SWAP_TOPIC } from '../constants/topics'
 import { CONTRACT_ADDRESSES } from '../constants/appAddresses'
-import { TrackMint } from '../Events/mint'
-import { TrackSwap } from '../Events/swap'
+
 import RpcClient from '../clients/client'
+import { TrackDeposit } from './deposit'
+import { TrackSwap } from './swap'
 
 export async function TrackEvents(
   discordClient: Client<boolean>,
@@ -19,13 +20,13 @@ export async function TrackEvents(
   console.log('### Polling Events ###')
   let blockNumber: number | undefined = undefined
   if (TESTNET) {
-    blockNumber = rpcClient.provider.blockNumber - 500
+    blockNumber = rpcClient.provider.blockNumber - 10000
   }
   BlockEvent.on(
     rpcClient,
     async (event) => {
       if (event.topics[0] === MINT_TOPIC) {
-        await TrackMint(discordClient, telegramClient, twitterClient, rpcClient, event, true)
+        await TrackDeposit(discordClient, telegramClient, twitterClient, rpcClient, event)
       } else if (event.topics[0] == SWAP_TOPIC) {
         await TrackSwap(discordClient, telegramClient, twitterClient, rpcClient, event)
       }

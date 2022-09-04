@@ -22,7 +22,6 @@
     "@ethersproject/bignumber": "^5.7.0",
     "@ethersproject/providers": "^5.7.0",
     "@ethersproject/units": "^5.7.0",
-    "@types/merge-images": "^1.2.1",
     "canvas": "^2.9.3",
     "coingecko-api": "^1.0.10",
     "dayjs": "^1.11.3",
@@ -40,6 +39,7 @@
   "devDependencies": {
     "@typechain/ethers-v5": "^10.0.0",
     "@types/coingecko-api": "^1.0.10",
+    "@types/merge-images": "^1.2.1",
     "@types/lodash": "^4.14.182",
     "@types/node": "^18.0.1",
     "@types/node-schedule": "^2.1.0",

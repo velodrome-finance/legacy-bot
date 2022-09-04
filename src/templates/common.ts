@@ -8,16 +8,6 @@ export function EtherScanTransactionLink(transactionHash: string) {
   return `${EtherScanUrl()}/tx/${transactionHash}`
 }
 
-export function FormattedDate(date: Date) {
-  dayjs.extend(dayjsPluginUTC)
-  return dayjs(date).utc().format('DD MMM YY')
-}
-
-export function FormattedDateTime(date: Date) {
-  dayjs.extend(dayjsPluginUTC)
-  return dayjs(date).utc().format('MMM-DD-YY HH:mm:ss') + ' UTC'
-}
-
 export function EtherScanUrl() {
   return 'https://optimistic.etherscan.io'
 }
