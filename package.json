@@ -1,7 +1,7 @@
 {
-  "name": "lyra-bot",
+  "name": "velo-bot",
   "version": "1.1.0",
-  "description": "Lyra trades bot",
+  "description": "Velo bot",
   "license": "MIT",
   "engines": {
     "node": "16.x",

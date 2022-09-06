@@ -29,14 +29,15 @@ export async function TrackEvents(
         await TrackDeposit(discordClient, telegramClient, twitterClient, rpcClient, event)
       } else if (event.topics[0] == SWAP_TOPIC) {
         await TrackSwap(discordClient, telegramClient, twitterClient, rpcClient, event)
-      } else if (event.topics[0] == NOTIIFY_REWARD_AMOUNT) {
-        await TrackBribe(discordClient, telegramClient, twitterClient, rpcClient, event)
       }
+      // else if (event.topics[0] == NOTIIFY_REWARD_AMOUNT) {
+      //   await TrackBribe(discordClient, telegramClient, twitterClient, rpcClient, event)
+      // }
     },
     {
       startBlockNumber: blockNumber,
       addresses: CONTRACT_ADDRESSES,
-      topics: [MINT_TOPIC, SWAP_TOPIC, NOTIIFY_REWARD_AMOUNT],
+      topics: [MINT_TOPIC, SWAP_TOPIC],
     },
   )
 }
