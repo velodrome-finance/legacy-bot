@@ -1,6 +1,3 @@
-import dayjs from 'dayjs'
-import dayjsPluginUTC from 'dayjs/plugin/utc'
-
 export const zapperUrl = 'https://zapper.fi/account/'
 export const debankUrl = 'https://debank.com/profile/'
 

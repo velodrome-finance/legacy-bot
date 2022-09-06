@@ -1,7 +1,7 @@
 import { DISCORD_DEPOSIT_THRESHOLD } from '../secrets'
 import fromBigNumber from '../utils/fromBigNumber'
 import { Client } from 'discord.js'
-import { DepositWithdrawDto } from '../types/dtos'
+import { DepositDto } from '../types/dtos'
 import { GetNotableAddress } from '../utils/notableAddresses'
 import { firstAddress, toDate } from '../utils/utils'
 import RpcClient from '../clients/client'
@@ -11,7 +11,7 @@ import { TwitterApi } from 'twitter-api-v2'
 import { Event as GenericEvent } from 'ethers'
 import { MintEvent } from '../contracts/typechain/VelodromePair'
 import { VelodromePair__factory } from '../contracts/typechain'
-import { PAIR_ADDRESSES } from '../constants/pairAddresses'
+import { PAIR_ADDRESSES } from '../constants/appAddresses'
 import { getMergedThumbnail } from '../utils/mergedImage'
 import { EventType } from '../constants/eventType'
 import { BroadCast } from './common'
@@ -49,7 +49,7 @@ export async function TrackDeposit(
       const to = GetNotableAddress(event.address)
       const img64 = (await getMergedThumbnail(pair[0], pair[1])) ?? ''
 
-      const dto: DepositWithdrawDto = {
+      const dto: DepositDto = {
         eventType: EventType.Deposit,
         from: from === '' ? firstAddress(event.args.sender) : event.args.sender,
         to: to === '' ? firstAddress(event.address) : to,
@@ -74,7 +74,7 @@ export async function TrackDeposit(
         img64: img64,
       }
 
-      BroadCast(dto, twitterClient, telegramClient, discordClient)
+      await BroadCast(dto, twitterClient, telegramClient, discordClient)
     } else {
       console.log(`Deposit found: $${totalValue}, smaller than ${DISCORD_DEPOSIT_THRESHOLD} threshold.`)
     }

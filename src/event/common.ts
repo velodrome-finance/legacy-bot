@@ -15,10 +15,13 @@ import {
   DISCORD_CHANNEL_BRIBE,
   GLOBAL_THRESHOLD,
   DISCORD_DEPOSIT_THRESHOLD,
+  GLOBAL_BRIBE_THRESHOLD,
+  DISCORD_BRIBE_THRESHOLD,
 } from '../secrets'
+import { BribeDiscord, BribeTwitter } from '../templates/bribe'
 import { DepositDiscord, DepositTwitter } from '../templates/deposit'
 import { SwapDiscord, SwapTwitter } from '../templates/swap'
-import { BaseEvent, DepositWithdrawDto, SwapDto } from '../types/dtos'
+import { BaseEvent, BribeDto, DepositDto, SwapDto } from '../types/dtos'
 import printObject from '../utils/printObject'
 
 export async function BroadCast<T extends BaseEvent>(
@@ -35,7 +38,11 @@ export async function BroadCast<T extends BaseEvent>(
       }
     } else if (dto.eventType === EventType.Deposit) {
       if (dto.value >= GLOBAL_THRESHOLD) {
-        post = DepositTwitter(dto as unknown as DepositWithdrawDto)
+        post = DepositTwitter(dto as unknown as DepositDto)
+      }
+    } else if (dto.eventType === EventType.Bribe) {
+      if (dto.value >= GLOBAL_BRIBE_THRESHOLD) {
+        post = BribeTwitter(dto as unknown as BribeDto)
       }
     }
 
@@ -50,19 +57,25 @@ export async function BroadCast<T extends BaseEvent>(
 
   if (DISCORD_ENABLED) {
     let embed: EmbedBuilder[] = []
-    let att = {} as AttachmentBuilder
+    const att: AttachmentBuilder[] = []
 
     if (dto.eventType == EventType.Swap) {
       if (dto.value >= GLOBAL_SWAP_THRESHOLD) {
         embed = SwapDiscord(dto as unknown as SwapDto)
         const buffer = Buffer.from((dto as unknown as SwapDto).img64, 'base64')
-        att = new AttachmentBuilder(buffer, { name: 'buffer.png' })
+        att[0] = new AttachmentBuilder(buffer, { name: 'buffer.png' })
       }
     } else if (dto.eventType == EventType.Deposit) {
       if (dto.value >= DISCORD_DEPOSIT_THRESHOLD) {
-        embed = DepositDiscord(dto as unknown as DepositWithdrawDto)
-        const buffer = Buffer.from((dto as unknown as DepositWithdrawDto).img64, 'base64')
-        att = new AttachmentBuilder(buffer, { name: 'buffer.png' })
+        embed = DepositDiscord(dto as unknown as DepositDto)
+        const buffer = Buffer.from((dto as unknown as DepositDto).img64, 'base64')
+        att[0] = new AttachmentBuilder(buffer, { name: 'buffer.png' })
+      }
+    } else if (dto.eventType == EventType.Bribe) {
+      if (dto.value >= DISCORD_BRIBE_THRESHOLD) {
+        embed = BribeDiscord(dto as unknown as BribeDto)
+        const buffer = Buffer.from((dto as unknown as BribeDto).img64, 'base64')
+        att[0] = new AttachmentBuilder(buffer, { name: 'buffer.png' })
       }
     }
 
@@ -83,8 +96,7 @@ export async function BroadCast<T extends BaseEvent>(
         if (dto.eventType == EventType.Bribe) {
           channel = DISCORD_CHANNEL_BRIBE
         }
-
-        PostDiscord(embed, discordClient, channel, [att])
+        await PostDiscord(embed, discordClient, channel, att)
       }
     }
   }

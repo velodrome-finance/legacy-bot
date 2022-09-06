@@ -1,9 +1,9 @@
 import { EmbedBuilder } from 'discord.js'
 import { staticIcons } from '../constants/staticIcons'
-import { DepositWithdrawDto } from '../types/dtos'
+import { DepositDto } from '../types/dtos'
 import { EtherScanTransactionLink, FN } from './common'
 
-export function DepositTwitter(dto: DepositWithdrawDto) {
+export function DepositTwitter(dto: DepositDto) {
   const post: string[] = []
   post.push(`$${FN(dto.value, 2)} deposit\n\n`)
   post.push(`${dto.toEns ? dto.toEns : dto.notableTo ? dto.to : '🧑 ' + dto.toAddress}\n`)
@@ -18,7 +18,7 @@ export function DepositTwitter(dto: DepositWithdrawDto) {
   return post.join('')
 }
 
-export function DepositDiscord(dto: DepositWithdrawDto): EmbedBuilder[] {
+export function DepositDiscord(dto: DepositDto): EmbedBuilder[] {
   const messageEmbeds: EmbedBuilder[] = []
   const embed = new EmbedBuilder()
     .setColor('#00ff7f')

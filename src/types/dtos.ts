@@ -3,6 +3,9 @@ import { EventType } from '../constants/eventType'
 export type BaseEvent = {
   value: number
   eventType: EventType
+  transactionHash: string
+  timestamp: Date
+  blockNumber: number
 }
 
 export type BaseDto = BaseEvent & {
@@ -12,14 +15,11 @@ export type BaseDto = BaseEvent & {
   toAddress: string
   fromEns: string
   toEns: string
-  transactionHash: string
-  timestamp: Date
-  blockNumber: number
   notableTo: boolean
   notableFrom: boolean
 }
 
-export type DepositWithdrawDto = BaseDto & {
+export type DepositDto = BaseDto & {
   token0Amount: number
   token0Symbol: string
   token0Value: number
@@ -44,4 +44,16 @@ export type SwapDto = BaseDto & {
   amount1OutValue: number
   imageUrl: string
   img64: string
+}
+
+export type BribeDto = BaseEvent & {
+  from: string
+  fromAddress: string
+  fromEns: string
+  notableFrom: boolean
+  toAddress: string
+  token0Symbol: string
+  token1Symbol: string
+  img64: string
+  amount: number
 }

@@ -17,6 +17,15 @@ export const THALES = ['thales', 'THALES', 18, '18388/small/CLVZJN_C_400x400.png
 export const HND = ['hundred-finance', 'HND', 18, '18445/small/hnd.PNG']
 export const SNX = ['havven', 'SNX', 18, '3406/small/SNX.png']
 export const FXS = ['frax-share', 'FXS', 18, '13423/small/frax_share.png']
+export const AELIN = ['aelin', 'AELIN', 18, '22303/small/aelien.jpg']
+export const TAROT = ['tarot', 'TAROT', 18, '17881/small/tarot-200px.png']
+export const USX = ['token-dforce-usd', 'USX', 18, '17422/small/usx_32.png']
+export const L2DAO = ['layer2dao', 'L2DAO', 18, '23699/small/Khp7Y4Sn.png']
+export const BOND = ['barnbridge', 'BOND', 18, '12811/small/barnbridge.jpg']
+export const DF = ['dforce-token', 'DF', 18, '9709/small/xlGxxIjI_400x400.jpg']
+export const UNLOCK = ['unlock', 'UNLOCK', 18, '23646/small/unlock.png']
+export const WBTC = ['wrapped-bitcoin', 'WBTC', 8, '7598/small/wrapped_bitcoin_wbtc.png']
+export const POOL = ['pooltogether', 'POOL', 18, '14003/small/PoolTogether.png']
 
 export const TOKEN_IDS: (string | number)[] = [
   LUSD[0],
@@ -37,4 +46,12 @@ export const TOKEN_IDS: (string | number)[] = [
   HND[0],
   SNX[0],
   FXS[0],
+  AELIN[0],
+  TAROT[0],
+  L2DAO[0],
+  BOND[0],
+  DF[0],
+  UNLOCK[0],
+  WBTC[0],
+  POOL[0],
 ]

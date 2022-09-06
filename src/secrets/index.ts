@@ -17,9 +17,11 @@ export const TELEGRAM_THRESHOLD = _.defaultTo(process.env.TELEGRAM_THRESHOLD, 10
 
 export const DISCORD_SWAP_THRESHOLD = _.defaultTo(process.env.DISCORD_SWAP_THRESHOLD, 25000)
 export const DISCORD_DEPOSIT_THRESHOLD = _.defaultTo(process.env.DISCORD_DEPOSIT_THRESHOLD, 25000)
+export const DISCORD_BRIBE_THRESHOLD = _.defaultTo(process.env.DISCORD_BRIBE_THRESHOLD, 250)
 
 export const GLOBAL_THRESHOLD = _.defaultTo(process.env.GLOBAL_THRESHOLD, 25000)
 export const GLOBAL_SWAP_THRESHOLD = _.defaultTo(process.env.GLOBAL_SWAP_THRESHOLD, 25000)
+export const GLOBAL_BRIBE_THRESHOLD = _.defaultTo(process.env.GLOBAL_BRIBE_THRESHOLD, 250)
 
 export const TOKEN = _.defaultTo(process.env.TOKEN, '')
 export const TOKEN_ADDRESS = _.defaultTo(process.env.TOKEN_ADDRESS, '')

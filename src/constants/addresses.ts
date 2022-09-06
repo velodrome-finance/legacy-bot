@@ -103,7 +103,7 @@ export const NotableAddresses: { [key: string]: string } = {
   '0x2431cbdc0792f5485c4cb0a9bef06c4f21541d52': 'Synapse Protocol',
   '0x9d439e524f214fb0cb5fa42030e578f60e64d98c': 'Slingshot',
   '0x5b8f3fb479571eca6a06240b21926db586cdf10f': 'Aelin',
-  '0xb074ec6c37659525eef2fb44478077901f878012': 'Velodrome',
+  '0xb074ec6c37659525eef2fb44478077901f878012': '🚴 Velodrome',
   '0x4aba01fb8e1f6bfe80c56deb367f19f35df0f4ae': 'Beefy',
   '0x641f26c67a5d0829ae61019131093b6a7c7d18a3': 'Hundred Finance',
   '0xb1a8d1d6dc07ca0e1e78a0004aa0bb034fa73d60': 'Mai Finance',

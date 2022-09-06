@@ -11,7 +11,7 @@ import { TwitterApi } from 'twitter-api-v2'
 import { Event as GenericEvent } from 'ethers'
 import { SwapEvent } from '../contracts/typechain/VelodromePair'
 import { VelodromePair__factory } from '../contracts/typechain'
-import { PAIR_ADDRESSES } from '../constants/pairAddresses'
+import { PAIR_ADDRESSES } from '../constants/appAddresses'
 import { getMergedThumbnail } from '../utils/mergedImage'
 import { EventType } from '../constants/eventType'
 import { BroadCast } from './common'
@@ -81,7 +81,7 @@ export async function TrackSwap(
         value: totalValue,
       }
 
-      BroadCast(dto, twitterClient, telegramClient, discordClient)
+      await BroadCast(dto, twitterClient, telegramClient, discordClient)
     } else {
       console.log(`Swap found: $${totalValue}, smaller than ${DISCORD_SWAP_THRESHOLD} threshold.`)
     }
