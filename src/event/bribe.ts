@@ -15,7 +15,7 @@ import { EventType } from '../constants/eventType'
 import { BroadCast } from './common'
 import { NotifyRewardEvent } from '../contracts/typechain/WrappedExternalBribe'
 import { BRIBE_PAIR_ADDRESSES } from '../constants/appAddresses'
-import { VELO } from '../constants/tokenIds'
+import { TOKENS, VELO } from '../constants/tokenIds'
 import { GetEns } from '../integrations/ens'
 
 export async function TrackBribe(
@@ -26,48 +26,57 @@ export async function TrackBribe(
   genericEvent: GenericEvent,
 ): Promise<void> {
   const event = parseEvent(genericEvent as NotifyRewardEvent)
-  try {
-    let timestamp = 0
-    console.log(event.address)
-    const pair = BRIBE_PAIR_ADDRESSES[event.address.toLowerCase()]
-    const amount = fromBigNumber(event.args.amount)
-    const veloPrice = TOKEN_PRICES[VELO[0]] as unknown as number
-    const value = amount * veloPrice
+  //console.log(event)
+  const bribeToken = TOKENS[event.args.reward.toLowerCase()]
+  //console.log(bribeToken)
 
-    if (value >= DISCORD_BRIBE_THRESHOLD) {
-      console.log(`Bribe found: $${value}`)
-      try {
-        timestamp = (await rpcClient.provider.getBlock(event.blockNumber)).timestamp
-      } catch (ex) {
-        console.log(ex)
+  if (bribeToken !== undefined) {
+    try {
+      let timestamp = 0
+      console.log(event.address)
+      const pair = BRIBE_PAIR_ADDRESSES[event.address.toLowerCase()]
+      const amount = fromBigNumber(event.args.amount)
+      const bribePrice = TOKEN_PRICES[bribeToken[0]] as unknown as number
+      const value = amount * bribePrice
+
+      if (value >= DISCORD_BRIBE_THRESHOLD) {
+        console.log(`Bribe found: $${value}`)
+        try {
+          timestamp = (await rpcClient.provider.getBlock(event.blockNumber)).timestamp
+        } catch (ex) {
+          console.log(ex)
+        }
+
+        const from = GetNotableAddress(event.args.from)
+        const img64 = (await getMergedThumbnail(pair[0], pair[1])) ?? ''
+
+        const dto: BribeDto = {
+          eventType: EventType.Bribe,
+          from: from === '' ? firstAddress(event.args.from) : from,
+          fromAddress: event.args.from,
+          notableFrom: from !== '',
+          transactionHash: event.transactionHash,
+          fromEns: await GetEns(event.args.from),
+          timestamp: timestamp === 0 ? toDate(Date.now()) : toDate(timestamp),
+          blockNumber: event.blockNumber,
+          toAddress: event.address,
+          token0Symbol: pair[0][1] as string,
+          token1Symbol: pair[1][1] as string,
+          value: value,
+          img64: img64,
+          amount: amount,
+          bribeTokenSymbol: bribeToken[1] as string,
+        }
+
+        await BroadCast(dto, twitterClient, telegramClient, discordClient)
+      } else {
+        console.log(`Bribe found: $${value}, smaller than ${DISCORD_BRIBE_THRESHOLD} threshold.`)
       }
-
-      const from = GetNotableAddress(event.args.from)
-      const img64 = (await getMergedThumbnail(pair[0], pair[1])) ?? ''
-
-      const dto: BribeDto = {
-        eventType: EventType.Bribe,
-        from: from === '' ? firstAddress(event.args.from) : from,
-        fromAddress: event.args.from,
-        notableFrom: from !== '',
-        transactionHash: event.transactionHash,
-        fromEns: await GetEns(event.args.from),
-        timestamp: timestamp === 0 ? toDate(Date.now()) : toDate(timestamp),
-        blockNumber: event.blockNumber,
-        toAddress: event.address,
-        token0Symbol: pair[0][1] as string,
-        token1Symbol: pair[1][1] as string,
-        value: value,
-        img64: img64,
-        amount: amount,
-      }
-
-      await BroadCast(dto, twitterClient, telegramClient, discordClient)
-    } else {
-      console.log(`Bribe found: $${value}, smaller than ${DISCORD_BRIBE_THRESHOLD} threshold.`)
+    } catch (e) {
+      console.log(e)
     }
-  } catch (e) {
-    console.log(e)
+  } else {
+    console.log('Unknown bribe token - skipping')
   }
 }
 

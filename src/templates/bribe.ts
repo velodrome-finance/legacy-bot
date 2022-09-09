@@ -5,10 +5,10 @@ import { EtherScanTransactionLink, FN } from './common'
 
 export function BribeTwitter(dto: BribeDto) {
   const post: string[] = []
-  post.push(`$${FN(dto.value, 2)} (${FN(dto.amount, 2)}) $VELO bribe\n\n`)
+  post.push(`$${FN(dto.value, 2)} (${FN(dto.amount, 2)}) $${dto.bribeTokenSymbol} bribe\n\n`)
 
-  post.push(`To incentivize Voters to vote for the \n`)
-  post.push(`🔵 $${dto.token0Symbol}/$${dto.token1Symbol} Pool\n\n`)
+  post.push(`To incentivize voters to vote for the \n`)
+  post.push(`🔵 $${dto.token0Symbol} / $${dto.token1Symbol} Pool\n\n`)
 
   post.push(`From ${dto.fromEns ? dto.fromEns : dto.notableFrom ? dto.from : '🧑 ' + dto.fromAddress}\n`)
   post.push(`🔗 ${EtherScanTransactionLink(dto.transactionHash)}\n\n`)
@@ -36,7 +36,7 @@ export function BribeDiscord(dto: BribeDto): EmbedBuilder[] {
         inline: false,
       },
       {
-        name: `VELO`,
+        name: `$${dto.bribeTokenSymbol}`,
         value: `> 🔸 ${FN(dto.amount, 2)}`,
         inline: false,
       },

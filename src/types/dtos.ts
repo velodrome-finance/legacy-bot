@@ -52,6 +52,7 @@ export type BribeDto = BaseEvent & {
   fromEns: string
   notableFrom: boolean
   toAddress: string
+  bribeTokenSymbol: string
   token0Symbol: string
   token1Symbol: string
   img64: string

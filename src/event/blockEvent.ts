@@ -20,7 +20,7 @@ export async function TrackEvents(
   console.log('### Polling Events ###')
   let blockNumber: number | undefined = undefined
   if (TESTNET) {
-    blockNumber = rpcClient.provider.blockNumber - 10000
+    blockNumber = rpcClient.provider.blockNumber - 5000
   }
   BlockEvent.on(
     rpcClient,
@@ -29,15 +29,14 @@ export async function TrackEvents(
         await TrackDeposit(discordClient, telegramClient, twitterClient, rpcClient, event)
       } else if (event.topics[0] == SWAP_TOPIC) {
         await TrackSwap(discordClient, telegramClient, twitterClient, rpcClient, event)
+      } else if (event.topics[0] == NOTIIFY_REWARD_AMOUNT) {
+        await TrackBribe(discordClient, telegramClient, twitterClient, rpcClient, event)
       }
-      // else if (event.topics[0] == NOTIIFY_REWARD_AMOUNT) {
-      //   await TrackBribe(discordClient, telegramClient, twitterClient, rpcClient, event)
-      // }
     },
     {
       startBlockNumber: blockNumber,
       addresses: CONTRACT_ADDRESSES,
-      topics: [MINT_TOPIC, SWAP_TOPIC],
+      topics: [MINT_TOPIC, SWAP_TOPIC, NOTIIFY_REWARD_AMOUNT],
     },
   )
 }
