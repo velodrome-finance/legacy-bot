@@ -17,6 +17,7 @@ import { NotifyRewardEvent } from '../contracts/typechain/WrappedExternalBribe'
 import { BRIBE_PAIR_ADDRESSES } from '../constants/appAddresses'
 import { TOKENS, VELO } from '../constants/tokenIds'
 import { GetEns } from '../integrations/ens'
+import printObject from '../utils/printObject'
 
 export async function TrackBribe(
   discordClient: Client<boolean>,
@@ -26,7 +27,7 @@ export async function TrackBribe(
   genericEvent: GenericEvent,
 ): Promise<void> {
   const event = parseEvent(genericEvent as NotifyRewardEvent)
-  //console.log(event)
+  //printObject(event)
   const bribeToken = TOKENS[event.args.reward.toLowerCase()]
   //console.log(bribeToken)
 
@@ -35,7 +36,7 @@ export async function TrackBribe(
       let timestamp = 0
       console.log(event.address)
       const pair = BRIBE_PAIR_ADDRESSES[event.address.toLowerCase()]
-      const amount = fromBigNumber(event.args.amount)
+      const amount = fromBigNumber(event.args.amount, bribeToken[2] as number)
       const bribePrice = TOKEN_PRICES[bribeToken[0]] as unknown as number
       const value = amount * bribePrice
 
