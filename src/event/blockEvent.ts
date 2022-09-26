@@ -35,7 +35,7 @@ export async function TrackEvents(
     },
     {
       startBlockNumber: blockNumber,
-      addresses: CONTRACT_ADDRESSES,
+      addresses: [...CONTRACT_ADDRESSES, ...global.BRIBE_ADDRESSES],
       topics: [MINT_TOPIC, SWAP_TOPIC, NOTIIFY_REWARD_AMOUNT],
       pollInterval: 60000,
     },

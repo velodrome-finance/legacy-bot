@@ -12,6 +12,7 @@ import { GetPrices } from './integrations/coingecko'
 import { TrackEvents } from './event/blockEvent'
 import { PricingJob } from './schedule'
 import { optimismInfuraProvider } from './clients/ethersClient'
+import { GetVeloData } from './integrations/velo'
 
 let discordClient: Client<boolean>
 let twitterClient: TwitterApi
@@ -26,8 +27,10 @@ export async function goBot() {
   global.ENS = {}
   global.TOKEN_PRICES = {}
   global.TOKEN_IMAGES = {}
+  global.VELO_DATA = []
 
   await GetPrices()
+  await GetVeloData()
   await TrackEvents(discordClient, telegramClient, twitterClient, rpcClient)
   PricingJob()
 }

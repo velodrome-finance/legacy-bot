@@ -27,9 +27,9 @@ export async function TrackBribe(
   genericEvent: GenericEvent,
 ): Promise<void> {
   const event = parseEvent(genericEvent as NotifyRewardEvent)
-  //printObject(event)
+  printObject(event)
   const bribeToken = TOKENS[event.args.reward.toLowerCase()]
-  //console.log(bribeToken)
+  console.log(bribeToken)
 
   if (bribeToken !== undefined) {
     try {
