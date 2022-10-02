@@ -7,4 +7,5 @@ export const staticIcons = {
   velodromeIcon: 'https://raw.githubusercontent.com/ethboi/assets/main/velodrome.png',
   velodromeIconSmall: 'https://raw.githubusercontent.com/ethboi/assets/main/velodrome-sm.png',
   optimismIcon: 'https://raw.githubusercontent.com/ethboi/assets/main/optimism.png',
+  oppIcon: 'https://raw.githubusercontent.com/ethboi/assets/main/OPP.png',
 }

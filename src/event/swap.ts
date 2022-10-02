@@ -11,10 +11,13 @@ import { TwitterApi } from 'twitter-api-v2'
 import { Event as GenericEvent } from 'ethers'
 import { SwapEvent } from '../contracts/typechain/VelodromePair'
 import { VelodromePair__factory } from '../contracts/typechain'
-import { PAIR_ADDRESSES } from '../constants/appAddresses'
+
 import { getMergedThumbnail } from '../utils/mergedImage'
 import { EventType } from '../constants/eventType'
 import { BroadCast } from './common'
+import { Pair } from '../types/velo'
+import { TOKENS } from '../constants/tokenIds'
+import { PriceToken } from './pricing'
 
 export async function TrackSwap(
   discordClient: Client<boolean>,
@@ -27,15 +30,37 @@ export async function TrackSwap(
 
   try {
     let timestamp = 0
-    const pair = PAIR_ADDRESSES[event.address]
-    const token0Dec = pair[0][2]
-    const token1Dec = pair[1][2]
-    const amount0In = fromBigNumber(event.args.amount0In, token0Dec as number)
-    const amount1In = fromBigNumber(event.args.amount1In, token1Dec as number)
-    const amount0Out = fromBigNumber(event.args.amount0Out, token0Dec as number)
-    const amount1Out = fromBigNumber(event.args.amount1Out, token1Dec as number)
-    const token0Price = TOKEN_PRICES[pair[0][0]]
-    const token1Price = TOKEN_PRICES[pair[1][0]]
+
+    const pairs: Pair[] = []
+
+    VELO_DATA.map((pair) => {
+      if (pair.address?.toLowerCase() === event.address.toLowerCase()) {
+        pairs.push(pair)
+      }
+    })
+
+    if (pairs.length == 0) {
+      console.log('PAIR not found in API')
+      return
+    }
+
+    const pair = pairs[0]
+
+    const token0 = TOKENS[pair?.token0_address.toLowerCase() as string]
+    const token1 = TOKENS[pair?.token1_address.toLowerCase() as string]
+
+    if (token0 === undefined || token1 === undefined) {
+      console.log('Token 0 not found' + pair?.token0_address)
+      console.log('Token 1 not found' + pair?.token1_address)
+      return
+    }
+
+    const amount0In = fromBigNumber(event.args.amount0In, token0[2] as number)
+    const amount1In = fromBigNumber(event.args.amount1In, token1[2] as number)
+    const amount0Out = fromBigNumber(event.args.amount0Out, token0[2] as number)
+    const amount1Out = fromBigNumber(event.args.amount1Out, token1[2] as number)
+    const token0Price = await PriceToken(token0, pair?.token0_address.toLowerCase() as string)
+    const token1Price = await PriceToken(token1, pair?.token1_address.toLowerCase() as string)
     const amount0InValue = amount0In * (token0Price as unknown as number)
     const amount1InValue = amount1In * (token1Price as unknown as number)
     const amount0OutValue = amount0Out * (token0Price as unknown as number)
@@ -51,7 +76,7 @@ export async function TrackSwap(
       }
       const from = GetNotableAddress(event.args.sender)
       const to = GetNotableAddress(event.address)
-      const img64 = (await getMergedThumbnail(pair[0], pair[1])) ?? ''
+      const img64 = (await getMergedThumbnail(token0, token1)) ?? ''
 
       const dto: SwapDto = {
         eventType: EventType.Swap,
@@ -74,8 +99,8 @@ export async function TrackSwap(
         notableFrom: from !== '',
         fromAddress: event.args.sender,
         toAddress: event.address,
-        token0Symbol: pair[0][1] as string,
-        token1Symbol: pair[1][1] as string,
+        token0Symbol: token0[1] as string,
+        token1Symbol: token1[1] as string,
         imageUrl: '',
         img64: img64,
         value: totalValue,

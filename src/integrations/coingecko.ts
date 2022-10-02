@@ -1,11 +1,19 @@
 import { CoinGeckoClient } from '../clients/coinGeckoClient'
-import { TOKEN_IDS } from '../constants/tokenIds'
+import { TOKENS } from '../constants/tokenIds'
 
 export async function GetPrices(): Promise<void> {
   try {
-    await CoinGeckoClient.simple.price({ ids: TOKEN_IDS as string[], vs_currencies: 'usd' }).then((resp) => {
+    const cgIDs: string[] = []
+
+    Object.keys(TOKENS).forEach((key) => {
+      if (TOKENS[key][0] != '') {
+        cgIDs.push(TOKENS[key][0] as string)
+      }
+    })
+
+    await CoinGeckoClient.simple.price({ ids: cgIDs, vs_currencies: 'usd' }).then((resp) => {
       console.log(resp)
-      TOKEN_IDS.map((token_id) => {
+      cgIDs.map((token_id) => {
         try {
           const tokenPrice = resp.data[token_id].usd
           console.log(`${token_id} Token Price: ${tokenPrice}`)

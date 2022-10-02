@@ -9,6 +9,7 @@ declare global {
   var TOKEN_IMAGES: { [key: string]: string } = {}
   var VELO_DATA: Pair[]
   var BRIBE_ADDRESSES: string[]
+  var PAIR_ADDRESSES: string[]
 }
 
 export {}

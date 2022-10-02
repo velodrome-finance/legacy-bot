@@ -5,7 +5,6 @@ import { Context, Telegraf } from 'telegraf'
 import { Update } from 'telegraf/typings/core/types/typegram'
 import { TwitterApi } from 'twitter-api-v2'
 import { MINT_TOPIC, NOTIIFY_REWARD_AMOUNT, SWAP_TOPIC } from '../constants/topics'
-import { CONTRACT_ADDRESSES } from '../constants/appAddresses'
 import RpcClient from '../clients/client'
 import { TrackDeposit } from './deposit'
 import { TrackSwap } from './swap'
@@ -19,8 +18,10 @@ export async function TrackEvents(
 ): Promise<void> {
   console.log('### Polling Events ###')
   let blockNumber: number | undefined = undefined
+  let pollInterval = 60000
   if (TESTNET) {
-    blockNumber = rpcClient.provider.blockNumber - 5000
+    blockNumber = rpcClient.provider.blockNumber - 30000
+    pollInterval = 500
   }
   BlockEvent.on(
     rpcClient,
@@ -35,9 +36,9 @@ export async function TrackEvents(
     },
     {
       startBlockNumber: blockNumber,
-      addresses: [...CONTRACT_ADDRESSES, ...global.BRIBE_ADDRESSES],
-      topics: [MINT_TOPIC, SWAP_TOPIC, NOTIIFY_REWARD_AMOUNT],
-      pollInterval: 60000,
+      addresses: [...global.PAIR_ADDRESSES, ...global.BRIBE_ADDRESSES],
+      topics: [NOTIIFY_REWARD_AMOUNT, SWAP_TOPIC, MINT_TOPIC],
+      pollInterval: pollInterval,
     },
   )
 }

@@ -14,10 +14,11 @@ import { getMergedThumbnail } from '../utils/mergedImage'
 import { EventType } from '../constants/eventType'
 import { BroadCast } from './common'
 import { NotifyRewardEvent } from '../contracts/typechain/WrappedExternalBribe'
-import { BRIBE_PAIR_ADDRESSES } from '../constants/appAddresses'
 import { TOKENS } from '../constants/tokenIds'
 import { GetEns } from '../integrations/ens'
 import printObject from '../utils/printObject'
+import { PriceToken } from './pricing'
+import { Pair } from '../types/velo'
 
 export async function TrackBribe(
   discordClient: Client<boolean>,
@@ -35,10 +36,33 @@ export async function TrackBribe(
     try {
       let timestamp = 0
       console.log(event.address)
-      const pair = BRIBE_PAIR_ADDRESSES[event.address.toLowerCase()]
+
+      const pairs: Pair[] = []
+
+      VELO_DATA.map((pair) => {
+        if (pair.gauge?.wrapped_bribe_address?.toLowerCase() === event.address.toLowerCase()) {
+          pairs.push(pair)
+        }
+      })
+
+      if (pairs.length == 0) {
+        console.log('PAIR not found in API')
+        return
+      }
+
+      const pair = pairs[0]
       const amount = fromBigNumber(event.args.amount, bribeToken[2] as number)
-      const bribePrice = TOKEN_PRICES[bribeToken[0]] as unknown as number
+      const bribePrice = await PriceToken(bribeToken, event.args.reward.toLowerCase())
       const value = amount * bribePrice
+
+      const token0 = TOKENS[pair?.token0_address.toLowerCase() as string]
+      const token1 = TOKENS[pair?.token1_address.toLowerCase() as string]
+
+      if (token0 === undefined || token1 === undefined) {
+        console.log('Token 0 not found' + pair?.token0_address)
+        console.log('Token 1 not found' + pair?.token1_address)
+        return
+      }
 
       if (value >= DISCORD_BRIBE_THRESHOLD) {
         console.log(`Bribe found: $${value}`)
@@ -49,7 +73,7 @@ export async function TrackBribe(
         }
 
         const from = GetNotableAddress(event.args.from)
-        const img64 = (await getMergedThumbnail(pair[0], pair[1])) ?? ''
+        const img64 = (await getMergedThumbnail(token0, token1)) ?? ''
 
         const dto: BribeDto = {
           eventType: EventType.Bribe,
@@ -61,8 +85,8 @@ export async function TrackBribe(
           timestamp: timestamp === 0 ? toDate(Date.now()) : toDate(timestamp),
           blockNumber: event.blockNumber,
           toAddress: event.address,
-          token0Symbol: pair[0][1] as string,
-          token1Symbol: pair[1][1] as string,
+          token0Symbol: token0[1] as string,
+          token1Symbol: token1[1] as string,
           value: value,
           img64: img64,
           amount: amount,

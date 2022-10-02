@@ -10,7 +10,7 @@ import { TwitterClient } from './clients/twitterClient'
 import { TelegramClient } from './clients/telegramClient'
 import { GetPrices } from './integrations/coingecko'
 import { TrackEvents } from './event/blockEvent'
-import { PricingJob } from './schedule'
+import { ScheduledJobs } from './schedule'
 import { optimismInfuraProvider } from './clients/ethersClient'
 import { GetVeloData } from './integrations/velo'
 
@@ -28,11 +28,14 @@ export async function goBot() {
   global.TOKEN_PRICES = {}
   global.TOKEN_IMAGES = {}
   global.VELO_DATA = []
+  global.PAIR_ADDRESSES = []
+  global.BRIBE_ADDRESSES = []
 
   await GetPrices()
   await GetVeloData()
+
   await TrackEvents(discordClient, telegramClient, twitterClient, rpcClient)
-  PricingJob()
+  ScheduledJobs()
 }
 
 export async function SetUpDiscord() {

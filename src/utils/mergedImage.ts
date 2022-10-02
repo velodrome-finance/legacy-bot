@@ -24,6 +24,14 @@ export const getMergedThumbnail = async (arg0: (string | number)[], arg1: (strin
     token1Img = staticIcons.optimismIcon
   }
 
+  if ((arg0[3] as string).startsWith('https')) {
+    token0Img = arg0[3] as string
+  }
+
+  if ((arg1[3] as string).startsWith('https')) {
+    token1Img = arg1[3] as string
+  }
+
   const b64 = await mergeImages(
     [
       { src: token1Img, x: 40, y: 0 },

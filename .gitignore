@@ -6,3 +6,4 @@ yarn-error.log
 launch.json
 deploy-commands.js
 dist/
+api-example.json

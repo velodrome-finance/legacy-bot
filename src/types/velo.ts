@@ -50,4 +50,5 @@ export type Token = {
   symbol: string
   decimals: number
   logoURI: null | string
+  price: null | number
 }
