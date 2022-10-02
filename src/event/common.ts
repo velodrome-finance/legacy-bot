@@ -96,6 +96,7 @@ export async function BroadCast<T extends BaseEvent>(
         if (dto.eventType == EventType.Bribe) {
           channel = DISCORD_CHANNEL_BRIBE
         }
+
         await PostDiscord(embed, discordClient, channel, att)
       }
     }

@@ -19,9 +19,9 @@ export async function TrackEvents(
   console.log('### Polling Events ###')
   let blockNumber: number | undefined = undefined
   let pollInterval = 60000
-  if (TESTNET) {
-    blockNumber = rpcClient.provider.blockNumber - 100
-    pollInterval = 500
+  if (!TESTNET) {
+    blockNumber = rpcClient.provider.blockNumber - 500
+    pollInterval = 1000
   }
   BlockEvent.on(
     rpcClient,
@@ -37,7 +37,7 @@ export async function TrackEvents(
     {
       startBlockNumber: blockNumber,
       addresses: [...global.PAIR_ADDRESSES, ...global.BRIBE_ADDRESSES],
-      topics: [NOTIIFY_REWARD_AMOUNT, SWAP_TOPIC, MINT_TOPIC],
+      topics: [NOTIIFY_REWARD_AMOUNT, MINT_TOPIC, SWAP_TOPIC],
       pollInterval: pollInterval,
     },
   )
