@@ -13,6 +13,8 @@ yarn start
 - `INFURA_ID` - used to get ENS
 - `INFURA_ID_OPTIMISM` - for everything else
 
+### Integrations
+
 #### Discord
 
 - `DISCORD_ENABLED` - enable/disable posting to discord
