@@ -10,11 +10,9 @@
   "scripts": {
     "start:bot": "ts-node-dev --files --respawn src/app.ts",
     "start": "ts-node --transpile-only src/app.ts --env prod",
-    "gen": "graphql-codegen --config codegen.yml",
     "lint:ts": "eslint --ext .js,.ts .",
     "lint:ts:fix": "yarn lint:ts --fix",
     "format": "prettier --write \"**/*.+(js|ts|json)\"",
-    "deploycmds": "tsc && node ./deploy-commands.js",
     "generate-types": "yarn typechain --target ethers-v5 --out-dir src/contracts/typechain src/contracts/abis/*.json"
   },
   "dependencies": {

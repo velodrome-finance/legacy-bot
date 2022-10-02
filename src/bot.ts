@@ -42,7 +42,7 @@ export async function SetUpDiscord() {
       console.debug('Discord Bot is online!')
     })
     await discordClient.login(DISCORD_ACCESS_TOKEN)
-    defaultActivity(discordClient)
+    await defaultActivity(discordClient)
   }
 }
 

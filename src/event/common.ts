@@ -13,7 +13,7 @@ import {
   DISCORD_CHANNEL_SWAP,
   DISCORD_CHANNEL_DEPOSIT,
   DISCORD_CHANNEL_BRIBE,
-  GLOBAL_THRESHOLD,
+  GLOBAL_DEPOSIT_THRESHOLD,
   DISCORD_DEPOSIT_THRESHOLD,
   GLOBAL_BRIBE_THRESHOLD,
   DISCORD_BRIBE_THRESHOLD,
@@ -37,7 +37,7 @@ export async function BroadCast<T extends BaseEvent>(
         post = SwapTwitter(dto as unknown as SwapDto)
       }
     } else if (dto.eventType === EventType.Deposit) {
-      if (dto.value >= GLOBAL_THRESHOLD) {
+      if (dto.value >= GLOBAL_DEPOSIT_THRESHOLD) {
         post = DepositTwitter(dto as unknown as DepositDto)
       }
     } else if (dto.eventType === EventType.Bribe) {

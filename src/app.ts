@@ -1,2 +1,2 @@
 import { goBot } from './bot'
-goBot().then(() => console.log('Bot is Launched'))
+goBot().then(() => console.log('Velo Bot is Launched'))

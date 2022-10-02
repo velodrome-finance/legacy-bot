@@ -15,7 +15,7 @@ import { EventType } from '../constants/eventType'
 import { BroadCast } from './common'
 import { NotifyRewardEvent } from '../contracts/typechain/WrappedExternalBribe'
 import { BRIBE_PAIR_ADDRESSES } from '../constants/appAddresses'
-import { TOKENS, VELO } from '../constants/tokenIds'
+import { TOKENS } from '../constants/tokenIds'
 import { GetEns } from '../integrations/ens'
 import printObject from '../utils/printObject'
 
