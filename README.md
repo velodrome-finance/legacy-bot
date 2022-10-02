@@ -1,4 +1,4 @@
-# VelodromeBot Bribes / Deposits / Trades - Discord & Twitter 🚴
+# Velodrome Bot Bribes | Deposits | Trades 🚴
 
 Run locally:
 
