@@ -125,4 +125,7 @@ export const TOKENS: { [key: string]: (string | number)[] } = {
   '0x73cb180bf0521828d8849bc8cf2b920918e23032': ['usd', 'USD+', 6, '25757/small/USD__logo.png'],
   '0x703d57164ca270b0b330a87fd159cfef1490c0a5': ['warden', 'WAD', 18, '16456/small/WAD.png'],
   '0x4e720dd3ac5cfe1e1fbde4935f386bb1c66f4642': ['beefy-finance', 'BIFI', 18, '12704/small/token.png'],
+  '0x1db2466d9f5e10d7090e7152b68d62703a2245f0': ['', 'SONNE', 18, 'https://docs.velodrome.finance/tokens/SONNE.png'],
+  '0xc3864f98f2a61a7caeb95b039d031b4e2f55e0e9': ['', 'OPENX', 18, 'https://docs.velodrome.finance/tokens/OPENX.png'],
+  '0x2513486f18eee1498d7b6281f668b955181dd0d9': ['', 'xOpenX', 18, 'https://docs.velodrome.finance/tokens/xOPENX.png'],
 }

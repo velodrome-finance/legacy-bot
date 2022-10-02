@@ -20,7 +20,7 @@ export async function TrackEvents(
   let blockNumber: number | undefined = undefined
   let pollInterval = 60000
   if (TESTNET) {
-    blockNumber = rpcClient.provider.blockNumber - 30000
+    blockNumber = rpcClient.provider.blockNumber - 100
     pollInterval = 500
   }
   BlockEvent.on(
