@@ -16,7 +16,7 @@ export const TOKENS: { [key: string]: (string | number)[] } = {
     'https://raw.githubusercontent.com/g4nc0r/VelodromeBot/main/static/UNLOCK.png',
   ],
   '0x76fb31fb4af56892a25e32cfc43de717950c9278': ['aave', 'AAVE', 18, '12645/small/AAVE.png'],
-  '0x3e29d3a9316dab217754d13b28646b76607c5f04': ['alchemix', 'alETH', 18, '279/small/ethereum.png'],
+  '0x3e29d3a9316dab217754d13b28646b76607c5f04': ['alchemix-eth', 'alETH', 18, '16271/small/uS04dyYy_400x400.jpeg'],
   '0xcb8fa9a76b8e203d8c3797bf438d8fb81ea3326a': ['alchemix-usd', 'alUSD', 18, '14114/small/Alchemix_USD.png'],
   '0xfe8b128ba8c78aabc59d4c64cee7ff28e9379921': ['balancer', 'BAL', 18, '11683/small/Balancer.png'],
   '0x5029c236320b8f15ef0a657054b84d90bfbeded3': ['bitant', 'bittANT', 18, '19055/small/BitANT.png'],
