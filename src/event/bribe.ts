@@ -28,15 +28,11 @@ export async function TrackBribe(
   genericEvent: GenericEvent,
 ): Promise<void> {
   const event = parseEvent(genericEvent as NotifyRewardEvent)
-  printObject(event)
   const bribeToken = TOKENS[event.args.reward.toLowerCase()]
-  console.log(bribeToken)
 
   if (bribeToken !== undefined) {
     try {
       let timestamp = 0
-      console.log(event.address)
-
       const pairs: Pair[] = []
 
       VELO_DATA.map((pair) => {
@@ -54,7 +50,6 @@ export async function TrackBribe(
       const amount = fromBigNumber(event.args.amount, bribeToken[2] as number)
       const bribePrice = await PriceToken(bribeToken, event.args.reward.toLowerCase())
       const value = amount * bribePrice
-
       const token0 = TOKENS[pair?.token0_address.toLowerCase() as string]
       const token1 = TOKENS[pair?.token1_address.toLowerCase() as string]
 

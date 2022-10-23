@@ -26,11 +26,11 @@ export async function TrackEvents(
   BlockEvent.on(
     rpcClient,
     async (event) => {
-      if (event.topics[0] === MINT_TOPIC) {
+      if (event.topics[0].toLowerCase() === MINT_TOPIC) {
         await TrackDeposit(discordClient, telegramClient, twitterClient, rpcClient, event)
-      } else if (event.topics[0] === SWAP_TOPIC) {
+      } else if (event.topics[0].toLowerCase() === SWAP_TOPIC) {
         await TrackSwap(discordClient, telegramClient, twitterClient, rpcClient, event)
-      } else if (event.topics[0] === NOTIIFY_REWARD_AMOUNT) {
+      } else if (event.topics[0].toLowerCase() === NOTIIFY_REWARD_AMOUNT) {
         await TrackBribe(discordClient, telegramClient, twitterClient, rpcClient, event)
       }
     },

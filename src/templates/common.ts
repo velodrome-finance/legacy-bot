@@ -16,7 +16,6 @@ export function FN(value: number, decimals: number) {
   })
 }
 
-// formatted number signed
 export function FNS(value: number, decimals: number) {
   const sign = value > 0 ? '+' : ''
 
