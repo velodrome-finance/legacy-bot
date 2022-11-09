@@ -11,7 +11,7 @@ import { TelegramClient } from './clients/telegramClient'
 import { GetPrices } from './integrations/coingecko'
 import { TrackEvents } from './event/blockEvent'
 import { ScheduledJobs } from './schedule'
-import { optimismInfuraProvider } from './clients/ethersClient'
+import { alchemyProvider, optimismInfuraProvider } from './clients/ethersClient'
 import { GetVeloData } from './integrations/velo'
 
 let discordClient: Client<boolean>
@@ -19,7 +19,7 @@ let twitterClient: TwitterApi
 let telegramClient: Telegraf<Context<Update>>
 
 export async function goBot() {
-  const rpcClient = new RpcClient(optimismInfuraProvider)
+  const rpcClient = new RpcClient(alchemyProvider)
   await SetUpDiscord()
   await SetUpTwitter()
   //await SetUpTelegram()
