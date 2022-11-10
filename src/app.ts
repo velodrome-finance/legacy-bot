@@ -19,8 +19,7 @@ async function Notifier(isDown = true) {
 
 function RegisterShutdownEvents(): void {
   process.on('beforeExit', async (code) => {
-    await Notifier()
-    process.exit(code)
+    await Notifier().then(process.exit(code))
   })
 }
 
