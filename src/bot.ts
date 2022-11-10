@@ -11,7 +11,7 @@ import { TelegramClient } from './clients/telegramClient'
 import { GetPrices } from './integrations/coingecko'
 import { TrackEvents } from './event/blockEvent'
 import { ScheduledJobs } from './schedule'
-import { alchemyProvider, optimismInfuraProvider } from './clients/ethersClient'
+import { alchemyProvider } from './clients/ethersClient'
 import { GetVeloData } from './integrations/velo'
 
 let discordClient: Client<boolean>
@@ -20,8 +20,7 @@ let telegramClient: Telegraf<Context<Update>>
 
 export async function goBot() {
   const rpcClient = new RpcClient(alchemyProvider)
-  await SetUpDiscord()
-  await SetUpTwitter()
+  await Promise.all([SetUpDiscord(), SetUpTwitter()])
   //await SetUpTelegram()
 
   global.ENS = {}
@@ -31,9 +30,7 @@ export async function goBot() {
   global.PAIR_ADDRESSES = []
   global.BRIBE_ADDRESSES = []
 
-  await GetPrices()
-  await GetVeloData()
-
+  await Promise.all([GetPrices(), await GetVeloData()])
   await TrackEvents(discordClient, telegramClient, twitterClient, rpcClient)
   ScheduledJobs()
 }

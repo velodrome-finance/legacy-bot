@@ -36,3 +36,10 @@ yarn start
 - `TELEGRAM_ENABLED` - not used atm
 - `TELEGRAM_ACCESS_TOKEN` - not used atm
 - `TELEGRAM_CHANNEL` - not used atm
+
+#### Telegram Logging
+
+Log when the bot is launched or goes down.
+
+- `LOG_TOKEN`
+- `LOG_CHANNEL`
